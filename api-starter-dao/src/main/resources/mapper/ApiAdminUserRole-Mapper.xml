@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.api.starter.dao.mapper.ApiAdminUserRoleMapper">
+
+    <resultMap id="resultMap" type="com.api.starter.dao.model.ApiAdminUserRoleModel">
+        <result column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="role_id" property="roleId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <sql id="baseColumn">
+        id,user_id,role_id,create_time,update_time
+    </sql>
+
+    <insert id="insert" keyProperty="po.id">
+		INSERT INTO api_admin_user_role(user_id,role_id,create_time,update_time)
+		VALUES(#{userId},#{roleId},now(),now())
+	</insert>
+
+    <select id="userRoles" resultMap="resultMap">
+        SELECT
+            <include refid="baseColumn"/>
+        FROM api_admin_user_role
+        WHERE user_id = #{userId}
+        ORDER BY ID ASC
+    </select>
+
+    <delete id="deleteUserRolesByRoleId">
+        DELETE FROM api_admin_user_role WHERE role_id = #{roleId}
+    </delete>
+
+    <delete id="deleteUserRolesByUserId">
+        DELETE FROM api_admin_user_role WHERE user_id = #{userId}
+    </delete>
+</mapper>

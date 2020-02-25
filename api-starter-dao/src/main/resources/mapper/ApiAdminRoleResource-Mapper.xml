@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.api.starter.dao.mapper.ApiAdminRoleResourceMapper">
+
+    <resultMap id="resultMap" type="com.api.starter.dao.model.ApiAdminRoleResourceModel">
+        <result column="id" property="id"/>
+        <result column="role_id" property="roleId"/>
+        <result column="resource_id" property="resourceId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <sql id="baseColumn">
+        id,role_id,resource_id,create_time,update_time
+    </sql>
+
+    <insert id="insert" keyProperty="id">
+		INSERT INTO api_admin_role_resource (role_id,resource_id,create_time,update_time)
+		VALUES(#{roleId},#{resourceId},now(),now())
+	</insert>
+
+    <delete id="deleteRolesResource">
+        DELETE FROM api_admin_role_resource WHERE role_id = #{roleId} AND resource_id = #{resourceId}
+    </delete>
+
+    <delete id="deleteRolesResourceByRoleId">
+        DELETE FROM api_admin_role_resource WHERE role_id = #{roleId}
+    </delete>
+
+    <delete id="delete">
+        DELETE FROM api_admin_role_resource WHERE id = #{id}
+    </delete>
+
+    <select id="getListByRoleId" resultMap="resultMap">
+        SELECT
+            <include refid="baseColumn"/>
+        FROM api_admin_role_resource
+        WHERE role_id = #{roleId}
+        ORDER BY ID ASC
+    </select>
+</mapper>

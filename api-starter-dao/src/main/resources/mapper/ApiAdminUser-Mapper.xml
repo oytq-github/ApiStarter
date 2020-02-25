@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.api.starter.dao.mapper.ApiAdminUserMapper">
+
+    <resultMap id="resultMap" type="com.api.starter.dao.model.ApiAdminUserModel">
+        <result column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="user_salt" property="userSalt"/>
+        <result column="real_name" property="realName"/>
+        <result column="nick_name" property="nickName"/>
+        <result column="user_phone" property="userPhone"/>
+        <result column="avatar_url" property="avatarUrl"/>
+        <result column="user_email" property="userEmail"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="user_status" property="userStatus"/>
+        <result column="user_version" property="userVersion"/>
+    </resultMap>
+
+    <sql id="baseColumn">
+      id,username,password,user_salt,real_name,nick_name,user_phone,avatar_url,user_email,create_time,update_time,user_status,user_version
+    </sql>
+
+    <insert id="insert" keyProperty="id">
+		INSERT INTO api_admin_user(username,password,user_salt,real_name,
+		nick_name,user_phone,avatar_url,user_email,create_time,update_time)
+		VALUES(#{username},#{password},#{userSalt},#{realName},
+		#{nickName},#{userPhone},#{avatarUrl},#{userEmail},now(),now())
+	</insert>
+
+    <update id="update">
+        UPDATE api_admin_user SET
+        username = #{username},
+        real_name = #{realName},
+        nick_name = #{nickName},
+        user_phone = #{userPhone},
+        user_email = #{userEmail},
+        update_time = now(),
+        user_version = user_version + 1
+        WHERE id = #{id} AND user_version = #{userVersion}
+    </update>
+
+    <update id="updatePassword">
+        UPDATE api_admin_user SET password = #{password} WHERE id = #{id} AND user_version = #{userVersion}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM api_admin_user WHERE id = #{id}
+    </delete>
+
+
+    <select id="list" resultMap="resultMap">
+        SELECT
+            <include refid="baseColumn"/>
+        FROM api_admin_user
+        <where>
+            <if test="model.id != null">
+                AND id = #{model.id}
+            </if>
+            <if test="model.username != null and model.username != ''">
+                AND username LIKE CONCAT(CONCAT('%', #{model.username}),'%')
+            </if>
+            <if test="model.realName != null and model.realName != ''">
+                AND real_name LIKE CONCAT(CONCAT('%', #{model.realName}),'%')
+            </if>
+            <if test="model.nickName != null and model.nickName != ''">
+                AND nick_name LIKE CONCAT(CONCAT('%', #{model.nickName}),'%')
+            </if>
+            <if test="model.userPhone != null and model.userPhone != ''">
+                AND user_phone LIKE CONCAT(CONCAT('%', #{model.userPhone}),'%')
+            </if>
+            <if test="model.userEmail != null and model.userEmail != ''">
+                AND user_email LIKE CONCAT(CONCAT('%', #{model.userEmail}),'%')
+            </if>
+            <if test="model.userStatus != null">
+                AND user_status = #{model.userStatus}
+            </if>
+            <if test="startDate != null">
+                AND create_time >= #{startDate}
+            </if>
+            <if test="endDate != null">
+                AND create_time  <![CDATA[ <= ]]> #{endDate}
+            </if>
+        </where>
+        ORDER BY ID ASC
+    </select>
+
+
+    <select id="getUserByUsername" resultMap="resultMap">
+        SELECT
+        <include refid="baseColumn"/>
+        FROM api_admin_user
+        WHERE username = #{username}
+    </select>
+
+    <update id="updateUserStatus">
+        UPDATE api_admin_user SET user_status = #{userStatus} WHERE id = #{id} AND user_version = #{userVersion}
+    </update>
+
+    <select id="getById" resultMap="resultMap">
+        SELECT
+        <include refid="baseColumn"/>
+        FROM api_admin_user
+        WHERE id = #{id}
+    </select>
+</mapper>

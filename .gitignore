@@ -1,0 +1,15 @@
+/api-starter-admin/node_modules/
+/api-starter-admin-api/target/
+/api-starter-dao/target/
+/api-starter-service/target/
+/api-starter-util/target/
+/.idea/
+/*.iml
+/api-starter-admin-api/api-starter-admin-api.iml
+/api-starter-dao/api-starter-dao.iml
+/api-starter-service/api-starter-service.iml
+/api-starter-util/api-starter-util.iml
+/api-starter-api/api-starter-api.iml
+/api-starter-core/api-starter-core.iml
+/api-starter-core/target/
+/api-starter-api/target/

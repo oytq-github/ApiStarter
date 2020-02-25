@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.api.starter.dao.mapper.ApiAdminRoleMapper">
+
+    <resultMap id="resultMap" type="com.api.starter.dao.model.ApiAdminRoleModel">
+        <result column="id" property="id"/>
+        <result column="role_name" property="roleName"/>
+        <result column="role_desc" property="roleDesc"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="api_version" property="apiVersion"/>
+    </resultMap>
+
+    <sql id="baseColumn">
+        id,role_name,role_desc,create_time,update_time,api_version
+    </sql>
+
+    <insert id="insert" keyProperty="id">
+		INSERT INTO api_admin_role (role_name,role_desc,create_time,update_time)
+		VALUES(#{roleName},#{roleDesc},now(),now())
+	</insert>
+
+    <update id="update">
+        UPDATE
+        api_admin_role
+        SET role_name = #{roleName}, role_desc = #{roleDesc}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM api_admin_role WHERE id = #{id}
+    </delete>
+
+    <select id="listByNameAndDesc" resultMap="resultMap">
+        SELECT
+            <include refid="baseColumn"/>
+        FROM api_admin_role
+        <where>
+            <if test="null != roleName and '' != roleName">
+              AND role_name LIKE CONCAT(CONCAT('%', #{roleName}),'%')
+            </if>
+            <if test="null != roleDesc and '' != roleDesc">
+              AND role_desc LIKE CONCAT(CONCAT('%', #{roleDesc}),'%')
+            </if>
+        </where>
+        ORDER BY ID ASC
+    </select>
+</mapper>
