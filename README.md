@@ -167,10 +167,6 @@ TomcatWebServerFactoryCustomizer类实现了WebServerFactoryCustomizer-->实现�
     1. 项目模块化
     2. 增加后台管理系统
     3. 进度: 开发中
-### 开发者
-推荐 : QQ群 : 546556883
-1. 微信: weixin54321a
-2. QQ: 735376047
 
 ### 鸣谢
 本项目后台管理系统基于vue-admin-template开发,项目需要关注的技术栈包括
