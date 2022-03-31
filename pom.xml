@@ -12,7 +12,7 @@
     <properties>
         <project.version>1.0</project.version>
         <lombok.version>1.18.10</lombok.version>
-        <spring.boot.version>2.1.9.RELEASE</spring.boot.version>
+        <spring.boot.version>2.5.12</spring.boot.version>
         <mysql.version>5.1.25</mysql.version>
         <pagehelper.version>1.2.12</pagehelper.version>
         <jwt.version>0.9.1</jwt.version>
